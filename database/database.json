@@ -1,0 +1,39 @@
+{
+  "products": [
+    {
+      "id": 1,
+      "name": "Laptop",
+      "description": "Powerful laptop for work and gaming",
+      "price": 1200,
+      "availability": true
+    },
+    {
+      "id": 2,
+      "name": "Smartphone",
+      "description": "Latest smartphone with advanced features",
+      "price": 800,
+      "availability": true
+    },
+    {
+      "id": 3,
+      "name": "Headphones",
+      "description": "High-quality noise-canceling headphones",
+      "price": 150,
+      "availability": true
+    },
+    {
+      "id": 4,
+      "name": "Camera",
+      "description": "Professional-grade digital camera",
+      "price": 1000,
+      "availability": false
+    },
+    {
+      "id": 5,
+      "name": "Smartwatch",
+      "description": "Fitness tracking smartwatch with heart rate monitor",
+      "price": 200,
+      "availability": true
+    }
+  ]
+}

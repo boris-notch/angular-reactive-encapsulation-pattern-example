@@ -1,19 +1,44 @@
 {
-  "extends": ["../../../.eslintrc.json"],
-  "ignorePatterns": ["!**/*"],
+  "root": true,
   "overrides": [
     {
-      "files": ["*.ts"],
-      "extends": [
-        "plugin:@nx/angular",
-        "plugin:@angular-eslint/template/process-inline-templates"
+      "files": [
+        "*.ts",
+        "*.tsx"
       ],
+      "env": {
+        "browser": true,
+        "es2021": true,
+        "es6": true,
+        "node": true
+      },
+      "extends": [
+        "eslint-config-prettier"
+      ],
+      "plugins": [
+        "@typescript-eslint",
+        "@angular-eslint/eslint-plugin"
+      ],
+      "parser": "@typescript-eslint/parser",
+      "parserOptions": {
+        "ecmaVersion": "latest",
+        "project": [
+          "tsconfig.json",
+          "tsconfig.app.json"
+        ],
+        "sourceType": "module"
+      },
       "rules": {
+        "@typescript-eslint/no-this-alias": "off",
+        "@typescript-eslint/no-var-requires": "off",
+        "@angular-eslint/no-output-native": "off",
+        "@angular-eslint/contextual-decorator": "off",
+        "@angular-eslint/no-attribute-decorator": "off",
         "@angular-eslint/directive-selector": [
           "error",
           {
             "type": "attribute",
-            "prefix": "neoxUi",
+            "prefix": [],
             "style": "camelCase"
           }
         ],
@@ -21,16 +46,100 @@
           "error",
           {
             "type": "element",
-            "prefix": "neox-ui",
+            "prefix": [
+              "app",
+              "ag"
+            ],
             "style": "kebab-case"
           }
+        ],
+        "@angular-eslint/component-class-suffix": [
+          "warn",
+          {
+            "suffixes": [
+              "Component",
+              "Page"
+            ]
+          }
+        ],
+        //  "@typescript-eslint/no-useless-constructor": "error",
+        "@typescript-eslint/ban-types": [
+          "error",
+          {
+            "types": {
+              "Function": false
+            },
+            "extendDefaults": true
+          }
+        ],
+        "@typescript-eslint/explicit-function-return-type": [
+          "error",
+          {
+            "allowExpressions": true
+          }
+        ],
+        "@typescript-eslint/member-ordering": [
+          "off",
+          {
+            "default": [
+              "public-static-field",
+              "protected-static-field",
+              "private-static-field",
+              "public-instance-field",
+              "protected-instance-field",
+              "private-instance-field",
+              "constructor",
+              "public-static-method",
+              "protected-static-method",
+              "private-static-method",
+              "public-instance-method",
+              "protected-instance-method",
+              "private-instance-method"
+            ]
+          }
+        ],
+        "@typescript-eslint/explicit-module-boundary-types": "off",
+        "@typescript-eslint/no-unused-vars": "off",
+        "@typescript-eslint/no-empty-interface": "off",
+        "@typescript-eslint/no-empty-function": "off",
+        "@typescript-eslint/no-explicit-any": "off",
+        "@typescript-eslint/no-unsafe-return": "off",
+        "@typescript-eslint/no-namespace": "off",
+        "@typescript-eslint/no-floating-promises": "off",
+        "@typescript-eslint/no-non-null-assertion": "off",
+        "id-length": [
+          "error",
+          {
+            "min": 2
+          }
+        ],
+        "no-useless-call": "error",
+        "yoda": "error",
+        "max-depth": [
+          "error",
+          3
         ]
+        // "max-lines-per-function": ["error", {"max": 30, "skipBlankLines": true, "skipComments": true}]
       }
     },
     {
-      "files": ["*.html"],
-      "extends": ["plugin:@nx/angular-template"],
-      "rules": {}
+      "files": [
+        "*.html"
+      ],
+      "extends": [
+        "plugin:@angular-eslint/template/recommended"
+      ],
+      "parser": "@angular-eslint/template-parser",
+      "plugins": [
+        "@angular-eslint/template"
+      ],
+      "rules": {
+        "@angular-eslint/template/no-negated-async": "off"
+        /**
+         * Any template/HTML related rules you wish to use/reconfigure over and above the
+         * recommended set provided by the @angular-eslint project would go here.
+         */
+      }
     }
   ]
 }
