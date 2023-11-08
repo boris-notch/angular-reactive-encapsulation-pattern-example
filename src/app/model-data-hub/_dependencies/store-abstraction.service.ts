@@ -19,7 +19,6 @@ import {
   shareReplay,
   switchMap,
 } from 'rxjs';
-import { IBaseModel } from './base-model';
 import { ICommonDataControl } from './common-data-control';
 
 interface IClassType<T> extends Function {
@@ -41,7 +40,7 @@ export abstract class StoreAbstraction<T> {
   >([]);
   loadingEntities$ = this.loadingEntitiesSubject.asObservable();
 
-  #baseEntityModel!: IClassType<T & ICommonDataControl>;
+  #baseEntityModel!: IClassType<T & ICommonDataControl<T>>;
 
   selectAll$: Observable<T[]> = this.store.pipe(
     selectAllEntities(),
@@ -76,13 +75,15 @@ export abstract class StoreAbstraction<T> {
   }
 
   addItem(item: T): void {
-    const itemImmutable = { ...item };
+    const itemImmutable = { ...item } as T & { id: number };
     this.store.update(addEntities(itemImmutable));
+    this.removeEntityStatusLoading(itemImmutable.id);
   }
 
   replaceItem(id: number, item: Partial<T>): void {
     const itemImmutable = { ...item };
     this.store.update(updateEntities(id, itemImmutable));
+    this.removeEntityStatusLoading(id);
   }
 
   patchItem(id: number, item: Partial<T>): void {
@@ -140,12 +141,11 @@ export abstract class StoreAbstraction<T> {
     this.loadingEntitiesSubject.next(this.store.getValue().LoadingEntityIds);
   }
 
-  removeEntityStatusLoading(item: T): void {
-    const baseItem = item as unknown as IBaseModel<T>;
+  removeEntityStatusLoading(id: number): void {
     this.store.update((state) => ({
       ...state,
       LoadingEntityIds: state.LoadingEntityIds.filter(
-        (ItemId: number) => ItemId !== baseItem.id,
+        (ItemId: number) => ItemId !== id,
       ),
     }));
     this.loadingEntitiesSubject.next(this.store.getValue().LoadingEntityIds);
@@ -167,7 +167,7 @@ export abstract class StoreAbstraction<T> {
   }
 
   toolsetBaseMapping(
-    baseMappingClass: IClassType<T & ICommonDataControl>,
+    baseMappingClass: IClassType<T & ICommonDataControl<T>>,
   ): void {
     this.#baseEntityModel = baseMappingClass;
   }

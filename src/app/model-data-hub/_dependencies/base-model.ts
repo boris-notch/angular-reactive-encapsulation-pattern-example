@@ -9,44 +9,48 @@ export type FetchProcedure =
   | 'STORE_THEN_API'
   | 'FETCH_FROM_STORE'
   | 'FETCH_FROM_API';
+type CommonProps<T, U> = {
+  [K in Extract<keyof T, keyof U>]: T[K];
+};
 
-export interface IBaseModel<T> extends ICommonDataControl {
+export interface IBaseModel<T> extends ICommonDataControl<T> {
   id: number;
 
-  create(): Observable<BaseModel<T>>;
+  create(): Observable<T>;
 
-  read(id: number, fetchProcedure?: FetchProcedure): Observable<BaseModel<T>>;
+  read(id: number, fetchProcedure?: FetchProcedure): Observable<T>;
 
-  update(): Observable<BaseModel<T>>;
+  update(): Observable<T>;
 
-  patch(props: string[]): Observable<BaseModel<T>>;
+  patch(props: string[]): Observable<T>;
 
   delete(): Observable<boolean>;
 
-  list(fetchProcedure?: FetchProcedure): Observable<BaseModel<T>[]>;
+  list(fetchProcedure?: FetchProcedure): Observable<T[]>;
 }
 
-export class BaseModel<T> extends CommonDataControl implements IBaseModel<T> {
+export class BaseModel<T>
+  extends CommonDataControl<T>
+  implements IBaseModel<T>
+{
   id = 0;
-  #apiService!: ApiAbstractionService<BaseModel<T>>;
-  #localStore!: StoreAbstraction<BaseModel<T>>;
+  #apiService!: ApiAbstractionService<T>;
+  #localStore!: StoreAbstraction<T>;
 
-  setApiService(
-    token: ProviderToken<ApiAbstractionService<BaseModel<T>>>,
-  ): void {
+  setApiService(token: ProviderToken<ApiAbstractionService<T>>): void {
     this.#apiService = ServiceLocator.injector.get(token);
   }
 
-  setLocalStore<T>(token: ProviderToken<StoreAbstraction<BaseModel<T>>>): void {
+  setLocalStore(token: ProviderToken<StoreAbstraction<T>>): void {
     this.#localStore = ServiceLocator.injector.get(token);
   }
 
-  create(): Observable<BaseModel<T>> {
+  create(): Observable<T> {
     this.#validateModelBelongings();
     return this.#apiService.create(this).pipe(
       map((item) => {
         this.copyValuesFrom(item);
-        return this;
+        return this.#getThisAsTEntity();
       }),
     );
   }
@@ -54,10 +58,10 @@ export class BaseModel<T> extends CommonDataControl implements IBaseModel<T> {
   read(
     id: number,
     fetchProcedure: FetchProcedure = 'STORE_THEN_API',
-  ): Observable<BaseModel<T>> {
+  ): Observable<T> {
     this.#validateModelBelongings();
 
-    let fetchLocation$: Observable<BaseModel<T>>;
+    let fetchLocation$: Observable<T>;
     switch (fetchProcedure) {
       case 'STORE_THEN_API': {
         const storeItem = this.#localStore.getEntityById(id);
@@ -83,27 +87,27 @@ export class BaseModel<T> extends CommonDataControl implements IBaseModel<T> {
     return fetchLocation$.pipe(
       map((item) => {
         this.copyValuesFrom(item);
-        return this;
+        return this.#getThisAsTEntity();
       }),
     );
   }
 
-  update(): Observable<BaseModel<T>> {
+  update(): Observable<T> {
     this.#validateModelBelongings();
     return this.#apiService.update(this).pipe(
       map((item) => {
         this.copyValuesFrom(item);
-        return this;
+        return this.#getThisAsTEntity();
       }),
     );
   }
 
-  patch(props: string[]): Observable<BaseModel<T>> {
+  patch(props: string[]): Observable<T> {
     this.#validateModelBelongings();
     return this.#apiService.patch(this, props).pipe(
       map((item) => {
         this.copyValuesFrom(item);
-        return this;
+        return this.#getThisAsTEntity();
       }),
     );
   }
@@ -113,9 +117,14 @@ export class BaseModel<T> extends CommonDataControl implements IBaseModel<T> {
     return this.#apiService.delete(this.id);
   }
 
-  list(): Observable<BaseModel<T>[]> {
+  list(): Observable<T[]> {
     this.#validateModelBelongings();
     return this.#apiService.list();
+  }
+
+  #getThisAsTEntity(): T {
+    // workaround to dump un necessities from the BaseModel
+    return this as unknown as T;
   }
 
   #validateModelBelongings(): void {

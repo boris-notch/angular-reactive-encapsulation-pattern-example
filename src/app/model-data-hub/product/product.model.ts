@@ -9,7 +9,7 @@ export interface IProduct extends IBaseModel<IProduct> {
   availability: boolean | null;
 }
 
-export class Product extends BaseModel<IProduct> implements IProduct {
+export class Product extends BaseModel<Product> implements IProduct {
   public name: string | null = null;
   public description: string | null = null;
   public price: number | null = null;
