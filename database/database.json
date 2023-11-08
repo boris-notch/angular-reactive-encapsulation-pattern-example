@@ -34,6 +34,13 @@
       "description": "Fitness tracking smartwatch with heart rate monitor",
       "price": 200,
       "availability": true
+    },
+    {
+      "id": 0.969562726693947,
+      "name": "kasa",
+      "description": "tu i tamo",
+      "price": 200,
+      "availability": null
     }
   ]
 }

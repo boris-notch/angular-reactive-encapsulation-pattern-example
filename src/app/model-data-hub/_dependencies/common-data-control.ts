@@ -27,9 +27,9 @@ export interface ICommonDataControl<T = any> {
 
   /**
    * Clones the current object into a new object in serialized form, excluding methods.
-   * @returns {this} - The serialized object.
+   * @returns serialized object.
    */
-  cloneSerialized(): this;
+  cloneSerialized(): Omit<this, keyof this>;
 }
 
 export abstract class CommonDataControl<T = any>
@@ -114,7 +114,7 @@ export abstract class CommonDataControl<T = any>
     return this;
   }
 
-  cloneSerialized(): this {
+  cloneSerialized(): Omit<this, keyof this> {
     return JSON.parse(JSON.stringify(this));
   }
 }

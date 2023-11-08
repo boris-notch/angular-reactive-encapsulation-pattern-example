@@ -48,7 +48,17 @@
                   "maximumError": "4kb"
                 }
               ],
-              "outputHashing": "all"
+              "outputHashing": "all",
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                },
+                {
+                  "replace": "src/tree-shakable/tree-shakable.ts",
+                  "with": "src/tree-shakable/tree-shakable.prod.ts"
+                }
+              ]
             },
             "development": {
               "buildOptimizer": false,
