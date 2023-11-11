@@ -19,7 +19,7 @@ import {
   shareReplay,
   switchMap,
 } from 'rxjs';
-import { ICommonDataControl } from './common-data-control';
+import { ICommonDataControl } from './common-data-control-abstraction';
 
 interface IClassType<T> extends Function {
   new (...args: any[]): T;

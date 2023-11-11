@@ -5,42 +5,35 @@
       "name": "Laptop",
       "description": "Powerful laptop for work and gaming",
       "price": 1200,
-      "availability": true
+      "quantity": 20
     },
     {
       "id": 2,
       "name": "Smartphone",
       "description": "Latest smartphone with advanced features",
       "price": 800,
-      "availability": true
+      "quantity": "340"
     },
     {
       "id": 3,
       "name": "Headphones",
       "description": "High-quality noise-canceling headphones",
       "price": 150,
-      "availability": true
+      "quantity": 4
     },
     {
       "id": 4,
       "name": "Camera",
       "description": "Professional-grade digital camera",
       "price": 1000,
-      "availability": false
+      "quantity": 12
     },
     {
       "id": 5,
       "name": "Smartwatch",
       "description": "Fitness tracking smartwatch with heart rate monitor",
       "price": 200,
-      "availability": true
-    },
-    {
-      "id": 0.969562726693947,
-      "name": "sdad3",
-      "description": "tu i tamo",
-      "price": 200,
-      "availability": null
+      "quantity": 66
     }
   ]
 }

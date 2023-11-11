@@ -3,7 +3,7 @@ import { inject } from '@angular/core';
 import { pick } from 'lodash-es';
 import { catchError, map, Observable, switchMap, tap, throwError } from 'rxjs';
 import { environment } from '../../../environment/environment';
-import { IBaseModel } from './base-model';
+import { IBaseModel } from './base-model-abstraction';
 import { StoreAbstraction } from './store-abstraction.service';
 
 export abstract class ApiAbstractionService<T> {
@@ -39,10 +39,14 @@ export abstract class ApiAbstractionService<T> {
     if (propsToUpdate.length < 0) {
       throw new Error(`Patch request is empty`);
     }
-    return this.http.patch<any>(
-      `${this.#buildUri(item.id)}`,
-      pick(item, propsToUpdate),
-    );
+    return this.http
+      .patch<any>(`${this.#buildUri(item.id)}`, pick(item, propsToUpdate))
+      .pipe(
+        switchMap((resp) => {
+          this.store.updateOrAddItem(item.id, resp);
+          return this.store.selectEntityById$(item.id);
+        }),
+      );
   }
 
   delete(id: number): Observable<boolean> {

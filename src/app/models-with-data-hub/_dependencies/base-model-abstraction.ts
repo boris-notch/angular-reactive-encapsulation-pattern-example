@@ -1,36 +1,33 @@
 import { ProviderToken } from '@angular/core';
+import { ServiceLocator } from '@app/utils';
 import { map, Observable } from 'rxjs';
-import { ServiceLocator } from '../locator.service';
 import { ApiAbstractionService } from './api-abstraction.service';
-import { CommonDataControl, ICommonDataControl } from './common-data-control';
+import {
+  CommonDataControlAbstraction,
+  ICommonDataControl,
+} from './common-data-control-abstraction';
 import { StoreAbstraction } from './store-abstraction.service';
 
-export type FetchProcedure =
-  | 'STORE_THEN_API'
-  | 'FETCH_FROM_STORE'
-  | 'FETCH_FROM_API';
-type CommonProps<T, U> = {
-  [K in Extract<keyof T, keyof U>]: T[K];
-};
+type FetchProcedure = 'STORE_THEN_API' | 'FETCH_FROM_STORE' | 'FETCH_FROM_API';
 
 export interface IBaseModel<T> extends ICommonDataControl<T> {
   id: number;
 
-  create(): Observable<T>;
+  addItemSelect$(): Observable<T>;
 
-  read(id: number, fetchProcedure?: FetchProcedure): Observable<T>;
+  fetchItemSelect$(id: number, fetchProcedure?: FetchProcedure): Observable<T>;
 
-  update(): Observable<T>;
+  updateItemSelect$(): Observable<T>;
 
-  patch(props: string[]): Observable<T>;
+  patchItemSelect$(props: string[]): Observable<T>;
 
-  delete(): Observable<boolean>;
+  deleteItem$(): Observable<boolean>;
 
-  list(fetchProcedure?: FetchProcedure): Observable<T[]>;
+  fetchAllSelect$(fetchProcedure?: FetchProcedure): Observable<T[]>;
 }
 
-export class BaseModel<T>
-  extends CommonDataControl<T>
+export abstract class BaseModel<T>
+  extends CommonDataControlAbstraction<T>
   implements IBaseModel<T>
 {
   id = 0;
@@ -45,7 +42,7 @@ export class BaseModel<T>
     this.#localStore = ServiceLocator.injector.get(token);
   }
 
-  create(): Observable<T> {
+  addItemSelect$(): Observable<T> {
     this.#validateModelBelongings();
     return this.#apiService.create(this).pipe(
       map((item) => {
@@ -55,7 +52,7 @@ export class BaseModel<T>
     );
   }
 
-  read(
+  fetchItemSelect$(
     id: number,
     fetchProcedure: FetchProcedure = 'STORE_THEN_API',
   ): Observable<T> {
@@ -92,7 +89,7 @@ export class BaseModel<T>
     );
   }
 
-  update(): Observable<T> {
+  updateItemSelect$(): Observable<T> {
     this.#validateModelBelongings();
     return this.#apiService.update(this).pipe(
       map((item) => {
@@ -102,7 +99,7 @@ export class BaseModel<T>
     );
   }
 
-  patch(props: string[]): Observable<T> {
+  patchItemSelect$(props: string[]): Observable<T> {
     this.#validateModelBelongings();
     return this.#apiService.patch(this, props).pipe(
       map((item) => {
@@ -112,12 +109,12 @@ export class BaseModel<T>
     );
   }
 
-  delete(): Observable<boolean> {
+  deleteItem$(): Observable<boolean> {
     this.#validateModelBelongings();
     return this.#apiService.delete(this.id);
   }
 
-  list(): Observable<T[]> {
+  fetchAllSelect$(): Observable<T[]> {
     this.#validateModelBelongings();
     return this.#apiService.list();
   }

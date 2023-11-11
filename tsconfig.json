@@ -22,7 +22,15 @@
     "lib": [
       "ES2022",
       "dom"
-    ]
+    ],
+    "paths": {
+      "@app/models": [
+        "src/app/models-with-data-hub/index.ts"
+      ],
+      "@app/utils": [
+        "src/app/utils/index.ts"
+      ]
+    }
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

@@ -1,9 +1,10 @@
+import { Nullable } from '@app/utils';
 import { isEqual } from 'lodash-es';
 
 export interface ICommonDataControl<T = any> {
   [key: string]: any;
 
-  convertStringToJsDate(data: any): Date | null;
+  convertStringToJsDate(data: any): Nullable<Date>;
 
   /**
    * Compares property names and replaces values for matched property names.
@@ -32,7 +33,7 @@ export interface ICommonDataControl<T = any> {
   cloneSerialized(): Partial<T>;
 }
 
-export abstract class CommonDataControl<T = any>
+export abstract class CommonDataControlAbstraction<T = any>
   implements ICommonDataControl<T>
 {
   [key: string]: any;
@@ -74,7 +75,7 @@ export abstract class CommonDataControl<T = any>
     return returnValue;
   }
 
-  convertStringToJsDate(data: any): Date | null {
+  convertStringToJsDate(data: any): Nullable<Date> {
     const rawDate = Date.parse(data);
     if (
       typeof data === 'string' &&
@@ -100,7 +101,7 @@ export abstract class CommonDataControl<T = any>
         if (dKey.includes('Date') && !(data[dKey] instanceof Date)) {
           this[dKey] = this.convertStringToJsDate(data[dKey]);
         } else {
-          if (this[dKey] instanceof CommonDataControl) {
+          if (this[dKey] instanceof CommonDataControlAbstraction) {
             this[dKey].copyValuesFrom(data[dKey]);
           } else if (Array.isArray(this[dKey])) {
             this[dKey] = JSON.parse(JSON.stringify(data[dKey]));
