@@ -1,5 +1,5 @@
 {
-  "name": "angular-data-model-encapsulation",
+  "name": "reactive-encapsulation-pattern-example",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",

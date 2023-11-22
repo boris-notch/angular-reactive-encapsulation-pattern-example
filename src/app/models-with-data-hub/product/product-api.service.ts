@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
+import { Product } from '@app/models';
 import { ApiAbstractionService } from '../_dependencies/api-abstraction.service';
-import { Product } from './product.model';
 import { ProductStore } from './product.store';
 
 @Injectable({

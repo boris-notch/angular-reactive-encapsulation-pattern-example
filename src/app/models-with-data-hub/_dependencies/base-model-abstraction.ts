@@ -13,16 +13,38 @@ type FetchProcedure = 'STORE_THEN_API' | 'FETCH_FROM_STORE' | 'FETCH_FROM_API';
 export interface IBaseModel<T> extends ICommonDataControl<T> {
   id: number;
 
-  addItemSelect$(): Observable<T>;
+  /**
+   * create the object on the server and return instance from the store
+   * */
+  createSelect$(): Observable<T>;
 
-  fetchItemSelect$(id: number, fetchProcedure?: FetchProcedure): Observable<T>;
+  /**
+   * read the item from the server or the store by 'id' and return the instance as observable,
+   * it will propagate changes of the item through it.
+   * */
+  readSelect$(id: number, fetchProcedure?: FetchProcedure): Observable<T>;
 
-  updateItemSelect$(): Observable<T>;
+  /**
+   * update the item on the server and return the instance as observable,
+   * it will propagate changes of the item through it.
+   * */
+  updateSelect$(): Observable<T>;
 
-  patchItemSelect$(props: string[]): Observable<T>;
+  /**
+   * patch the item on the server and return the instance as observable,
+   * it will propagate changes of the item through it.
+   * */
+  patchSelect$(props: string[]): Observable<T>;
 
-  deleteItem$(): Observable<boolean>;
+  /**
+   * delete the item from the server and return the confirmation boolean as observable,
+   * */
+  delete$(): Observable<boolean>;
 
+  /**
+   * fetch list of items of the same type from the server or the store and return list as observable,
+   * it will propagate changes of the items through it.
+   * */
   fetchAllSelect$(fetchProcedure?: FetchProcedure): Observable<T[]>;
 }
 
@@ -42,7 +64,7 @@ export abstract class BaseModel<T>
     this.#localStore = ServiceLocator.injector.get(token);
   }
 
-  addItemSelect$(): Observable<T> {
+  createSelect$(): Observable<T> {
     this.#validateModelBelongings();
     return this.#apiService.create(this).pipe(
       map((item) => {
@@ -52,7 +74,7 @@ export abstract class BaseModel<T>
     );
   }
 
-  fetchItemSelect$(
+  readSelect$(
     id: number,
     fetchProcedure: FetchProcedure = 'STORE_THEN_API',
   ): Observable<T> {
@@ -89,7 +111,7 @@ export abstract class BaseModel<T>
     );
   }
 
-  updateItemSelect$(): Observable<T> {
+  updateSelect$(): Observable<T> {
     this.#validateModelBelongings();
     return this.#apiService.update(this).pipe(
       map((item) => {
@@ -99,7 +121,7 @@ export abstract class BaseModel<T>
     );
   }
 
-  patchItemSelect$(props: string[]): Observable<T> {
+  patchSelect$(props: string[]): Observable<T> {
     this.#validateModelBelongings();
     return this.#apiService.patch(this, props).pipe(
       map((item) => {
@@ -109,7 +131,7 @@ export abstract class BaseModel<T>
     );
   }
 
-  deleteItem$(): Observable<boolean> {
+  delete$(): Observable<boolean> {
     this.#validateModelBelongings();
     return this.#apiService.delete(this.id);
   }

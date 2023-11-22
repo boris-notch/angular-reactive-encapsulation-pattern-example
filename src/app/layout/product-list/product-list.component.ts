@@ -45,7 +45,7 @@ export class ProductListComponent {
   }
 
   onRowEditSave(product: Product): void {
-    product.updateItemSelect$().pipe(take(1)).subscribe();
+    product.updateSelect$().pipe(take(1)).subscribe();
   }
 
   onRowEditCancel(product: Product): void {
@@ -53,11 +53,11 @@ export class ProductListComponent {
   }
 
   onRowDelete(product: Product): void {
-    product.deleteItem$().subscribe();
+    product.delete$().subscribe();
   }
 
   onAddNewSave(): void {
-    this.newItem?.addItemSelect$().pipe(take(1)).subscribe();
+    this.newItem?.createSelect$().pipe(take(1)).subscribe();
     this.showNewItemForm = false;
   }
 

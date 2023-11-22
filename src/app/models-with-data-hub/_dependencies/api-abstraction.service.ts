@@ -32,7 +32,12 @@ export abstract class ApiAbstractionService<T> {
   }
 
   update(item: IBaseModel<T>): Observable<T> {
-    return this.http.put<any>(`${this.#buildUri(item.id)}`, item);
+    return this.http.put<any>(`${this.#buildUri(item.id)}`, item).pipe(
+      switchMap((resp) => {
+        this.store.updateOrAddItem(item.id, resp);
+        return this.store.selectEntityById$(item.id);
+      }),
+    );
   }
 
   patch(item: IBaseModel<T>, propsToUpdate: string[]): Observable<T> {
