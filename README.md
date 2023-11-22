@@ -1,27 +1,63 @@
-# AngularDataModelEncapsulation
+# Reactive Encapsulation Pattern Example
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.2.8.
+## Description
 
-## Development server
+This repository contains an example Angular application implemented using the Reactive Encapsulation Pattern.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+## Installation
 
-## Code scaffolding
+1. Clone the repository
+2. Run `npm install` to install dependencies
+3. Run `ng serve` to start the application
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Structure
 
-## Build
+The project follows a clear structure to showcase the implementation of the Reactive Encapsulation Pattern:
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+1. **src/**
+   - **app/**
+     - **layout/**
+       - `components`
+     - **models-with-data-hub/**
+       - **\_dependencies/** `// abstractions, helpers, etc`
+       - **product/** `// example of a model`
+         - `product.model.ts`
+         - `product.store.ts`
+         - `product.api-servise.ts`
+   - **assets/**
+   - **environment/**
 
-## Running unit tests
+## Components
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+### API Service abstraction
 
-## Running end-to-end tests
+- Located in `src/app/models-with-data-hub/_dependencies/api-abstraction.service.ts`
+- Manages communication with the backend API for products.
+- Integrates with the Store to update state after fetching data.
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+### Store abstraction
 
-## Further help
+- Located in `src/app/models-with-data-hub/_dependencies/store-abstraction.service.ts`
+- StoreAbstraction for products using ELF State Management.
+- Tracks the state of entities, allowing for entity updates and retrieval.
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+### Example Model
+
+- Located in `src/app/models-with-data-hub/product/product.model.ts`
+- Defines the product Model, encapsulating data and providing methods for entity management.
+- Inherits from BaseModel and implements ICommonDataControl.
+
+### Base Model
+
+- Located in `src/app/models-with-data-hub/base-model-abstraction.ts`
+- Abstract class providing a base structure for model entities.
+- Defines common methods and properties shared by all models.
+
+## Usage
+
+Feel free to explore the code and comments within each component to understand how the Reactive Encapsulation Pattern is
+applied.
+
+## Contributions
+
+If you have any suggestions or improvements, feel free to open an issue or submit a pull request!
