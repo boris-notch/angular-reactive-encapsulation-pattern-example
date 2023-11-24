@@ -7,6 +7,6 @@ import { ProductStore } from './product.store';
   providedIn: 'root',
 })
 export class ProductApiService extends ApiAbstractionService<Product> {
-  modelName = 'products';
+  endpointName = 'products';
   store = inject(ProductStore);
 }

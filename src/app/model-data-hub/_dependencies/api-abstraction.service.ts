@@ -8,7 +8,7 @@ import { StoreAbstraction } from './store-abstraction.service';
 
 export abstract class ApiAbstractionService<T> {
   private apiUrl = environment.serverDomain;
-  abstract modelName: string;
+  abstract endpointName: string;
   abstract store: StoreAbstraction<T>;
   private http = inject(HttpClient);
 
@@ -81,7 +81,7 @@ export abstract class ApiAbstractionService<T> {
   }
 
   #buildUri(id?: number): string {
-    const uri = `${this.apiUrl}/${this.modelName}`;
+    const uri = `${this.apiUrl}/${this.endpointName}`;
     return id ? `${uri}/${id}` : uri;
   }
 }
