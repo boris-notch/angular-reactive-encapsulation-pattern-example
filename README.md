@@ -18,7 +18,7 @@ The project follows a clear structure to showcase the implementation of the Reac
    - **app/**
      - **layout/**
        - `components`
-     - **models-with-data-hub/**
+     - **model-data-hub/**
        - **\_dependencies/** `// abstractions, helpers, etc`
        - **product/** `// example of a model`
          - `product.model.ts`
@@ -31,25 +31,25 @@ The project follows a clear structure to showcase the implementation of the Reac
 
 ### API Service abstraction
 
-- Located in `src/app/models-with-data-hub/_dependencies/api-abstraction.service.ts`
+- Located in `src/app/model-data-hub/_dependencies/api-abstraction.service.ts`
 - Manages communication with the backend API for products.
 - Integrates with the Store to update state after fetching data.
 
 ### Store abstraction
 
-- Located in `src/app/models-with-data-hub/_dependencies/store-abstraction.service.ts`
+- Located in `src/app/model-data-hub/_dependencies/store-abstraction.service.ts`
 - StoreAbstraction for products using ELF State Management.
 - Tracks the state of entities, allowing for entity updates and retrieval.
 
 ### Example Model
 
-- Located in `src/app/models-with-data-hub/product/product.model.ts`
+- Located in `src/app/model-data-hub/product/product.model.ts`
 - Defines the product Model, encapsulating data and providing methods for entity management.
 - Inherits from BaseModel and implements ICommonDataControl.
 
 ### Base Model
 
-- Located in `src/app/models-with-data-hub/base-model-abstraction.ts`
+- Located in `src/app/model-data-hub/base-model-abstraction.ts`
 - Abstract class providing a base structure for model entities.
 - Defines common methods and properties shared by all models.
 

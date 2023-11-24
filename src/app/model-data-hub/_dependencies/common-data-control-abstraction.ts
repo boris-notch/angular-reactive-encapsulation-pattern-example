@@ -13,16 +13,17 @@ export interface ICommonDataControl<T = any> {
   copyValuesFrom(data: any): void;
 
   /**
-   * Extracts different values from another object and returns the property keys in a string array.
+   * Extracts different values from another object and returns the property keys in a string array,
+   * suitable for extracting properties for patch.
    * @param object - Another object to compare values with.
    * @returns string[] - An array of property keys with different values.
    */
   extractDifferentValuesFrom(object: any): string[];
 
   /**
-   * @param object object to compare to
-   * @param escapeProps
-   * @returns true if objects are equal, otherwise false
+   * @param object object to compare to.
+   * @param escapeProps list of properties which will be skipped.
+   * @returns true if objects are equal, otherwise false.
    */
   compareWith(object: any, escapeProps?: string[]): boolean;
 
