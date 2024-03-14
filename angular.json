@@ -75,10 +75,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "angular-data-model-encapsulation:build:production"
+              "buildTarget": "angular-data-model-encapsulation:build:production"
             },
             "development": {
-              "browserTarget": "angular-data-model-encapsulation:build:development"
+              "buildTarget": "angular-data-model-encapsulation:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -86,7 +86,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "angular-data-model-encapsulation:build"
+            "buildTarget": "angular-data-model-encapsulation:build"
           }
         },
         "test": {
