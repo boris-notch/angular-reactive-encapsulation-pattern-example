@@ -1,5 +1,13 @@
 # Reactive Encapsulation Pattern Example 🚀
 
+## 🌐 Blog
+
+Explore the Reactive Encapsulation Pattern in Angular through our detailed blog post. It offers insights and practical
+applications of this pattern to simplify and enhance your Angular projects. Discover how to leverage the pattern for
+better modularity and complexity management in web development.
+
+[Reactive Encapsulation Pattern in Angular](https://wearenotch.com/reactive-encapsulation-pattern-in-angular/)
+
 ## 📖 Description
 
 This repository showcases an Angular application demonstrating the Reactive Encapsulation Pattern, aiming to offer a
